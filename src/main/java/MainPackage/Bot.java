@@ -32,22 +32,31 @@ public class Bot extends TelegramLongPollingBot {
 	@Override
 	@SneakyThrows
 	public void onUpdateReceived(Update update) {
+
 		long chatId = update.getMessage().getChatId();
 		String text = update.getMessage().getText();
-		if (update.hasMessage() && !text.isEmpty()) {
-			String response = messageHandler.purposeOfThePremises(text);
 
+		if (text.equalsIgnoreCase("/secretMessage")) {
 			SendMessage sendMessage = new SendMessage();
-
-			if (update.getMessage().getText().equals("/start")) {
-				sendMessage.setChatId(chatId);
-				sendMessage.setText(response);
-				sendMessage.setReplyMarkup(replyKeyboardMarkup);
-			} else {
-				sendMessage.setChatId(chatId);
-				sendMessage.setText(response);
-			}
+			sendMessage.setText("Вы вошли в секретный чат. Что Вас интересует?");
+			sendMessage.setChatId(chatId);
 			execute(sendMessage);
+		} else {
+			if (update.hasMessage() && !text.isEmpty()) {
+				String response = messageHandler.purposeOfThePremises(text);
+
+				SendMessage sendMessage = new SendMessage();
+
+				if (update.getMessage().getText().equals("/start")) {
+					sendMessage.setChatId(chatId);
+					sendMessage.setText(response);
+					sendMessage.setReplyMarkup(replyKeyboardMarkup);
+				} else {
+					sendMessage.setChatId(chatId);
+					sendMessage.setText(response);
+				}
+				execute(sendMessage);
+			}
 		}
 	}
 
