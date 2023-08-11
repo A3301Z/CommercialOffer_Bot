@@ -25,6 +25,8 @@ public class CostOfEquipment {
             price = 280_000;
         } else if (airVolumeInRoom <= 7500) {
             price = 300_000;
+        } else if (airVolumeInRoom <= 8000) {
+            price = 320_000;
         }
         return price;
     }
